@@ -120,6 +120,8 @@ RIGHT = (1, 0)
 #Main for normal SnakeGame
 def main_normal():
     #Iinitialisation
+    pygame.init()
+
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('SnakeGame normal')
