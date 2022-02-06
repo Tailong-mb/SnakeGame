@@ -102,11 +102,11 @@ def draw_grid(surface):
                 pygame.draw.rect(surface, (93, 216, 113), type_square_one)
             else:
                 type_square_two = pygame.Rect((x * GRIDSIZE, y * GRIDSIZE), (GRIDSIZE, GRIDSIZE))
-                pygame.draw.rect(surface, (93, 216, 113), type_square_two)
+                pygame.draw.rect(surface, (97, 223, 119), type_square_two)
 
 #Const values screen
-SCREEN_WIDTH = 480
-SCREEN_HEIGHT = 480
+SCREEN_WIDTH = 520
+SCREEN_HEIGHT = 520
 #Const values grid
 GRIDSIZE = 20
 GRID_WIDTH = SCREEN_HEIGHT / GRIDSIZE
@@ -120,10 +120,9 @@ RIGHT = (1, 0)
 #Main for normal SnakeGame
 def main_normal():
     #Iinitialisation
-    pygame.init()
-
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    pygame.display.set_caption('SnakeGame normal')
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
@@ -161,6 +160,7 @@ def main_hard():
 
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+    pygame.display.set_caption('SnakeGame hard')
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
@@ -217,4 +217,3 @@ def main_hard():
         screen.blit(score_text, (5, 10))
         pygame.display.update()
 
-main_hard()
