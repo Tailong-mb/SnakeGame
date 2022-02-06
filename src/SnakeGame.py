@@ -3,6 +3,7 @@ import random
 import sys
 
 import pygame
+from pygame import mixer
 
 #Snake class
 class Snake(object):
@@ -10,7 +11,7 @@ class Snake(object):
         self.length = 1
         self.positions = [((SCREEN_HEIGHT / 2), (SCREEN_HEIGHT / 2))]
         self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
-        self.color = (146, 140, 141)
+        self.color = (255, 197, 15)
         self.score = 0
     #Return the head position of the snake
     def get_head_position(self):
@@ -119,9 +120,13 @@ RIGHT = (1, 0)
 
 #Main for normal SnakeGame
 def main_normal():
-    #Iinitialisation
+    #Initialisation
     pygame.init()
-
+    #Background sound
+    mixer.music.load('../music/SnakeGameNormalMusic.wav')
+    mixer.music.set_volume(0.25)
+    mixer.music.play(-1)
+    #Clock and screen
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('SnakeGame normal')
@@ -159,7 +164,11 @@ def main_normal():
 def main_hard():
     #Initialisation
     pygame.init()
-
+    #Background sound
+    mixer.music.load('../music/SnakeGameHardMusic.wav')
+    mixer.music.set_volume(0.25)
+    mixer.music.play(-1)
+    #Clock and screen
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('SnakeGame hard')

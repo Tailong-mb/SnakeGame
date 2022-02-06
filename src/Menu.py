@@ -2,7 +2,6 @@ import pygame
 import Button
 import SnakeGame
 
-
 def menu():
     SCREEN_WIDTH = 520
     SCREEN_HEIGHT = 520
@@ -10,13 +9,13 @@ def menu():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Snake Menu')
 
-    #load image
-    hard_button_img = pygame.image.load('../Image/hard_button.png').convert_alpha()
-    normal_button_img = pygame.image.load('../Image/normal_button.png').convert_alpha()
-
+    #Load image
+    hard_button_img = pygame.image.load('../image/hard_button.png').convert_alpha()
+    normal_button_img = pygame.image.load('../image/normal_button.png').convert_alpha()
+    #Set button
     hard_button = Button.Button(140,300, normal_button_img)
     normal_button = Button.Button(140,150, hard_button_img)
-
+    #Set boolean for choice
     normal_game = False
     hard_game = False
     run = True
