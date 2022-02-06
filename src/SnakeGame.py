@@ -66,7 +66,6 @@ class Snake(object):
                 elif event.key == pygame.K_LEFT:
                     self.turn(LEFT)
 
-
 class Food(object):
     def __init__(self):
         self.position = (0, 0)
@@ -81,6 +80,19 @@ class Food(object):
         pygame.draw.rect(surface, self.color, food_draw)
         pygame.draw.rect(surface, (93, 216, 113), food_draw, 1)
 
+class Block(object):
+    def __init__(self):
+        self.position = (0, 0)
+        self.color = (137, 41, 20)
+        self.randomize_position()
+
+    def randomize_position(self):
+        self.position = (random.randint(0, GRID_WIDTH - 1) * GRIDSIZE, random.randint(0, GRID_HEIGHT - 1) * GRIDSIZE)
+
+    def draw(self, surface):
+        block_draw = pygame.Rect((self.position[0], self.position[1]), (GRIDSIZE, GRIDSIZE))
+        pygame.draw.rect(surface, self.color, block_draw)
+        pygame.draw.rect(surface, (93, 216, 113), block_draw, 1)
 
 def draw_grid(surface):
     for y in range(0, int(GRID_HEIGHT)):
@@ -138,5 +150,54 @@ def main_normal():
         screen.blit(score_text, (5, 10))
         pygame.display.update()
 
+def main_hard():
+    pygame.init()
 
-main_normal()
+    clock = pygame.time.Clock()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
+
+    surface = pygame.Surface(screen.get_size())
+    surface = surface.convert()
+    draw_grid(surface)
+
+    snake = Snake()
+    food = Food()
+    font_score = pygame.font.SysFont("monospace", 16)
+    block_list = []
+
+    while True:
+        clock.tick(10)
+        snake.handle_key()
+        draw_grid(surface)
+        snake.move()
+        if snake.score == 0:
+            block_list.clear()
+        if snake.get_head_position() == food.position:
+            snake.length += 1
+            snake.update_score()
+            food.randomize_position()
+            food_position_ok = True
+            block = Block()
+            while block.position in food.position or block.position in snake.positions:
+                block.randomize_position()
+            block_list.append(block)
+            while food_position_ok:
+                food.randomize_position()
+                food_position_ok = False
+                for block_test in block_list:
+                    if block_test == food.position:
+                        food_position_ok = True
+        for block_test in block_list:
+            if snake.get_head_position() == block_test.position:
+                snake.reset()
+                block_list.clear()
+        for block_test in block_list:
+            block_test.draw(surface)
+        snake.draw(surface)
+        food.draw(surface)
+        screen.blit(surface, (0, 0))
+        score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
+        screen.blit(score_text, (5, 10))
+        pygame.display.update()
+
+main_hard()
