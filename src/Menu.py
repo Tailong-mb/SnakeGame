@@ -2,40 +2,42 @@ import pygame
 import Button
 import SnakeGame
 
-SCREEN_WIDTH = 520
-SCREEN_HEIGHT = 520
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Snake Menu')
+def menu():
+    SCREEN_WIDTH = 520
+    SCREEN_HEIGHT = 520
 
-#load image
-hard_button_img = pygame.image.load('../Image/hard_button.png').convert_alpha()
-normal_button_img = pygame.image.load('../Image/normal_button.png').convert_alpha()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption('Snake Menu')
 
-hard_button = Button.Button(140,300, normal_button_img)
-normal_button = Button.Button(140,150, hard_button_img)
+    #load image
+    hard_button_img = pygame.image.load('../Image/hard_button.png').convert_alpha()
+    normal_button_img = pygame.image.load('../Image/normal_button.png').convert_alpha()
 
-normal_game = False
-hard_game = False
-run = True
-while run:
+    hard_button = Button.Button(140,300, normal_button_img)
+    normal_button = Button.Button(140,150, hard_button_img)
 
-    screen.fill((202,228,241))
+    normal_game = False
+    hard_game = False
+    run = True
+    while run:
 
-    if hard_button.draw(screen):
-        normal_game = True
-        run = False
-    if normal_button.draw(screen):
-        hard_game = True
-        run = False
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        screen.fill((38, 154, 57))
+
+        if hard_button.draw(screen):
+            normal_game = True
             run = False
+        if normal_button.draw(screen):
+            hard_game = True
+            run = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
-    pygame.display.update()
+        pygame.display.update()
 
-if normal_game:
-    SnakeGame.main_normal()
-if hard_game:
-    SnakeGame.main_hard()
-pygame.quit()
+    if normal_game:
+        SnakeGame.main_normal()
+    if hard_game:
+        SnakeGame.main_hard()
+    pygame.quit()
