@@ -11,6 +11,7 @@ class Snake(object):
         self.positions = [((SCREEN_HEIGHT / 2), (SCREEN_HEIGHT / 2))]
         self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
         self.color = (17, 24, 47)
+        self.score = 0
 
     def get_head_position(self):
         return self.positions[0]
@@ -35,10 +36,14 @@ class Snake(object):
             if len(self.positions) > self.length:
                 self.positions.pop()
 
+    def update_score(self):
+        self.score += 1
+
     def reset(self):
         self.length = 1
         self.positions = [((SCREEN_HEIGHT / 2), (SCREEN_HEIGHT / 2))]
         self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
+        self.score = 0
 
     def draw(self, surface):
         for p in self.positions:
@@ -101,7 +106,7 @@ LEFT = (-1, 0)
 RIGHT = (1, 0)
 
 
-def main():
+def main_normal():
     pygame.init()
 
     clock = pygame.time.Clock()
@@ -113,8 +118,7 @@ def main():
 
     snake = Snake()
     food = Food()
-    score = 0
-    myfont = pygame.font.SysFont("monospace", 16)
+    font_score = pygame.font.SysFont("monospace", 16)
 
     while True:
         clock.tick(10)
@@ -123,13 +127,16 @@ def main():
         snake.move()
         if snake.get_head_position() == food.position:
             snake.length += 1
+            snake.update_score()
             food.randomize_position()
+            while food.position in snake.positions:
+                food.randomize_position()
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
-        text = myfont.render("Score {0}".format(score), 1, (0, 0, 0))
-        screen.blit(text, (5, 10))
+        score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
+        screen.blit(score_text, (5, 10))
         pygame.display.update()
 
 
-main()
+main_normal()
