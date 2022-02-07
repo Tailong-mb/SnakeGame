@@ -130,14 +130,15 @@ def main_normal():
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('SnakeGame normal')
-
+    #Surface
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
     draw_grid(surface)
-
+    #Object and score
     snake = Snake()
     food = Food()
     font_score = pygame.font.SysFont("monospace", 16)
+    best_score = 0
     #Game Start
     while True:
         clock.tick(10)
@@ -149,6 +150,8 @@ def main_normal():
             snake.length += 1
             snake.update_score()
             food.randomize_position()
+            if snake.score > best_score:
+                best_score = snake.score
             #Check if the food is on the snake
             while food.position in snake.positions:
                 food.randomize_position()
@@ -156,7 +159,9 @@ def main_normal():
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
+        best_score_text = font_score.render("Best score {0}".format(best_score),1, (0, 0, 0))
         score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
+        screen.blit(best_score_text,(5, 500))
         screen.blit(score_text, (5, 10))
         pygame.display.update()
 
@@ -172,14 +177,15 @@ def main_hard():
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
     pygame.display.set_caption('SnakeGame hard')
-
+    #Surface
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
     draw_grid(surface)
-
+    #Object and score
     snake = Snake()
     food = Food()
     font_score = pygame.font.SysFont("monospace", 16)
+    best_score = 0
     block_list = []
 #Game start
     while True:
@@ -194,6 +200,8 @@ def main_hard():
         if snake.get_head_position() == food.position:
             snake.length += 1
             snake.update_score()
+            if snake.score > best_score:
+                best_score = snake.score
             food.randomize_position()
             food_position_ok = True
             block = Block()
@@ -224,7 +232,9 @@ def main_hard():
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
+        best_score_text = font_score.render("Best score {0}".format(best_score), 1, (0, 0, 0))
         score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
         screen.blit(score_text, (5, 10))
+        screen.blit(best_score_text, (5, 500))
         pygame.display.update()
 
