@@ -1,6 +1,7 @@
 # import lib
 import random
 import sys
+import button
 
 import pygame
 from pygame import mixer
@@ -140,11 +141,25 @@ def main_game(gametype):
     font_score = pygame.font.SysFont("monospace", 16)
     best_score = 0
     block_list = []
+    #Sound icon
+    sound = True
+    sound_button_img = pygame.image.load('../image/audio_button.png')
+    mute_button_img = pygame.image.load('../image/mute_button.png')
+    sound_button = button.Button(500,5,sound_button_img)
+    mute_button = button.Button(500,5,mute_button_img)
     #Game Start
     while True:
         clock.tick(10)
         snake.handle_key()
         draw_grid(surface)
+        if sound:
+            if sound_button.draw(surface):
+                sound = False
+                mixer.music.set_volume(0)
+        else:
+            if mute_button.draw(surface):
+                sound = True
+                mixer.music.set_volume(0.25)
         snake.move()
         #When the snake reach food position
         if gametype:
