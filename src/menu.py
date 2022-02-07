@@ -37,7 +37,7 @@ def menu():
         pygame.display.update()
 
     if normal_game:
-        snakeGame.main_normal()
+        snakeGame.main_game(False)
     if hard_game:
-        snakeGame.main_hard()
+        snakeGame.main_game(True)
     pygame.quit()

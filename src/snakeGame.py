@@ -119,7 +119,7 @@ LEFT = (-1, 0)
 RIGHT = (1, 0)
 
 #Main for normal SnakeGame
-def main_normal():
+def main_game(gametype):
     #Initialisation
     pygame.init()
     #Background sound
@@ -139,6 +139,7 @@ def main_normal():
     food = Food()
     font_score = pygame.font.SysFont("monospace", 16)
     best_score = 0
+    block_list = []
     #Game Start
     while True:
         clock.tick(10)
@@ -146,95 +147,63 @@ def main_normal():
         draw_grid(surface)
         snake.move()
         #When the snake reach food position
-        if snake.get_head_position() == food.position:
-            snake.length += 1
-            snake.update_score()
-            food.randomize_position()
-            if snake.score > best_score:
-                best_score = snake.score
-            #Check if the food is on the snake
-            while food.position in snake.positions:
+        if gametype:
+            # Reset block spawn if the snake reset (caused by himself)
+            if snake.score == 0:
+                block_list.clear()
+            # When snake reach food position
+            if snake.get_head_position() == food.position:
+                snake.length += 1
+                snake.update_score()
+                if snake.score > best_score:
+                    best_score = snake.score
                 food.randomize_position()
+                food_position_ok = True
+                block = Block()
+                # Test if the block spawned on the snake (no matter if a block spawn on a block here)
+                while block.position in food.position or block.position in snake.positions:
+                    block.randomize_position()
+                block_list.append(block)
+                # Check the spawn of the food (not on a block, not on the snake)
+                while food_position_ok:
+                    food.randomize_position()
+                    food_position_ok = False
+                    # Check if the food is on a block
+                    for block_test in block_list:
+                        if block_test == food.position:
+                            food_position_ok = True
+                    # Check if the position is on the snake
+                    if food.position in snake.positions:
+                        food_position_ok = True
+            else:
+                # When the snake reach a block
+                for block_test in block_list:
+                    if snake.get_head_position() == block_test.position:
+                        snake.reset()
+                        block_list.clear()
+            # Draw after update
+            for block_test in block_list:
+                block_test.draw(surface)
+        else:
+            if snake.get_head_position() == food.position:
+                snake.length += 1
+                snake.update_score()
+                food.randomize_position()
+                if snake.score > best_score:
+                    best_score = snake.score
+                #Check if the food is on the snake
+                while food.position in snake.positions:
+                    food.randomize_position()
         #Draw after update
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0, 0))
+        #Draw score
         best_score_text = font_score.render("Best score {0}".format(best_score),1, (0, 0, 0))
         score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
         screen.blit(best_score_text,(5, 500))
         screen.blit(score_text, (5, 10))
+        #Update display
         pygame.display.update()
 
-#Hard mode for SnakeGame
-def main_hard():
-    #Initialisation
-    pygame.init()
-    #Background sound
-    mixer.music.load('../music/SnakeGameHardMusic.wav')
-    mixer.music.set_volume(0.25)
-    mixer.music.play(-1)
-    #Clock and screen
-    clock = pygame.time.Clock()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-    pygame.display.set_caption('SnakeGame hard')
-    #Surface
-    surface = pygame.Surface(screen.get_size())
-    surface = surface.convert()
-    draw_grid(surface)
-    #Object and score
-    snake = Snake()
-    food = Food()
-    font_score = pygame.font.SysFont("monospace", 16)
-    best_score = 0
-    block_list = []
-#Game start
-    while True:
-        clock.tick(10)
-        snake.handle_key()
-        draw_grid(surface)
-        snake.move()
-        #Reset block spawn if the snake reset (caused by himself)
-        if snake.score == 0:
-            block_list.clear()
-        #When snake reach food position
-        if snake.get_head_position() == food.position:
-            snake.length += 1
-            snake.update_score()
-            if snake.score > best_score:
-                best_score = snake.score
-            food.randomize_position()
-            food_position_ok = True
-            block = Block()
-            #Test if the block spawned on the snake (no matter if a block spawn on a block here)
-            while block.position in food.position or block.position in snake.positions:
-                block.randomize_position()
-            block_list.append(block)
-            #Check the spawn of the food (not on a block, not on the snake)
-            while food_position_ok:
-                food.randomize_position()
-                food_position_ok = False
-                #Check if the food is on a block
-                for block_test in block_list:
-                    if block_test == food.position:
-                        food_position_ok = True
-                #Check if the position is on the snake
-                if food.position in snake.positions:
-                    food_position_ok = True
-        else:
-            #When the snake reach a block
-            for block_test in block_list:
-                if snake.get_head_position() == block_test.position:
-                    snake.reset()
-                    block_list.clear()
-        #Draw after update
-        for block_test in block_list:
-            block_test.draw(surface)
-        snake.draw(surface)
-        food.draw(surface)
-        screen.blit(surface, (0, 0))
-        best_score_text = font_score.render("Best score {0}".format(best_score), 1, (0, 0, 0))
-        score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
-        screen.blit(score_text, (5, 10))
-        screen.blit(best_score_text, (5, 500))
-        pygame.display.update()
 
