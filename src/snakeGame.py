@@ -124,7 +124,10 @@ def main_game(gametype):
     #Initialisation
     pygame.init()
     #Background sound
-    mixer.music.load('../music/SnakeGameNormalMusic.wav')
+    if gametype:
+        mixer.music.load('../music/SnakeGameHardMusic.wav')
+    else:
+        mixer.music.load('../music/SnakeGameNormalMusic.wav')
     mixer.music.set_volume(0.25)
     mixer.music.play(-1)
     #Clock and screen
@@ -145,10 +148,13 @@ def main_game(gametype):
     sound = True
     sound_button_img = pygame.image.load('../image/audio_button.png')
     mute_button_img = pygame.image.load('../image/mute_button.png')
+    back_button_img = pygame.image.load('../image/fleche_courbe.png')
     sound_button = button.Button(500,5,sound_button_img)
     mute_button = button.Button(500,5,mute_button_img)
+    back_button = button.Button(5,500,back_button_img)
     #Game Start
-    while True:
+    game = True
+    while game:
         clock.tick(10)
         snake.handle_key()
         draw_grid(surface)
@@ -160,13 +166,15 @@ def main_game(gametype):
             if mute_button.draw(surface):
                 sound = True
                 mixer.music.set_volume(0.25)
+        #Exit
+        if back_button.draw(surface):
+            game = False
         snake.move()
-        #When the snake reach food position
         if gametype:
-            # Reset block spawn if the snake reset (caused by himself)
+            #Reset block spawn if the snake reset (caused by himself)
             if snake.score == 0:
                 block_list.clear()
-            # When snake reach food position
+            #When snake reach food position
             if snake.get_head_position() == food.position:
                 snake.length += 1
                 snake.update_score()
@@ -175,7 +183,7 @@ def main_game(gametype):
                 food.randomize_position()
                 food_position_ok = True
                 block = Block()
-                # Test if the block spawned on the snake (no matter if a block spawn on a block here)
+                #Test if the block spawned on the snake (no matter if a block spawn on a block here)
                 while block.position in food.position or block.position in snake.positions:
                     block.randomize_position()
                 block_list.append(block)
@@ -183,15 +191,15 @@ def main_game(gametype):
                 while food_position_ok:
                     food.randomize_position()
                     food_position_ok = False
-                    # Check if the food is on a block
+                    #Check if the food is on a block
                     for block_test in block_list:
                         if block_test == food.position:
                             food_position_ok = True
-                    # Check if the position is on the snake
+                    #Check if the position is on the snake
                     if food.position in snake.positions:
                         food_position_ok = True
             else:
-                # When the snake reach a block
+                #When the snake reach a block
                 for block_test in block_list:
                     if snake.get_head_position() == block_test.position:
                         snake.reset()
@@ -200,6 +208,7 @@ def main_game(gametype):
             for block_test in block_list:
                 block_test.draw(surface)
         else:
+            #When the snake reach food position
             if snake.get_head_position() == food.position:
                 snake.length += 1
                 snake.update_score()
@@ -216,7 +225,7 @@ def main_game(gametype):
         #Draw score
         best_score_text = font_score.render("Best score {0}".format(best_score),1, (0, 0, 0))
         score_text = font_score.render("Score {0}".format(snake.score), 1, (0, 0, 0))
-        screen.blit(best_score_text,(5, 500))
+        screen.blit(best_score_text,(5, 25))
         screen.blit(score_text, (5, 10))
         #Update display
         pygame.display.update()

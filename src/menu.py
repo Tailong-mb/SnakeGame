@@ -26,18 +26,17 @@ def menu():
 
         if hard_button.draw(screen):
             normal_game = True
-            run = False
         if normal_button.draw(screen):
             hard_game = True
-            run = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
         pygame.display.update()
-
-    if normal_game:
-        snakeGame.main_game(False)
-    if hard_game:
-        snakeGame.main_game(True)
+        #launch game
+        if normal_game:
+            snakeGame.main_game(False)
+            normal_game = False
+        if hard_game:
+            snakeGame.main_game(True)
+            hard_game = False
     pygame.quit()
