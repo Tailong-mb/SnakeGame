@@ -1,7 +1,7 @@
 # SnakeGame
-A basic SnakeGame with two versions, a basic named "normal" and one where walls will appear named "hard".
+A basic SnakeGame with two versions, a basic named "normal" and one where walls will appear named "hard". I used a 3.10 version of python.
 # How to use it 
-Move ot the src folder and :
+Move to the src folder and :
 ```
 $ python main.py
 ```
