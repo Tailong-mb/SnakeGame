@@ -21,9 +21,9 @@ def menu():
     hard_game = False
     run = True
     while run:
-
+        #Color Background
         screen.fill((38, 154, 57))
-
+        #Conditions when one of the icons are pressed
         if hard_button.draw(screen):
             normal_game = True
         if normal_button.draw(screen):
