@@ -12,9 +12,11 @@ def menu():
     pygame.display.set_caption('Snake Menu')
 
     #Load image
+    snakeGame_img = pygame.image.load('../image/snake_img.jpg').convert_alpha()
     hard_button_img = pygame.image.load('../image/hard_button.png').convert_alpha()
     normal_button_img = pygame.image.load('../image/normal_button.png').convert_alpha()
     #Set button
+    snakeGame_button = button.Button(200, 20, snakeGame_img)
     hard_button = button.Button(140,300, normal_button_img)
     normal_button = button.Button(140,150, hard_button_img)
     #Set boolean for choice
@@ -36,7 +38,10 @@ def menu():
             mixer.music.play(-1)
             Music = False
         #Color Background
-        screen.fill((38, 154, 57))
+        screen.fill((255, 255, 255))
+        #snake icon
+        if snakeGame_button.draw(screen):
+            Music = False
         #Mute music choice
         if sound:
             if sound_button.draw(screen):
