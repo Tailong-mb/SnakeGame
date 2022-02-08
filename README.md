@@ -1,9 +1,13 @@
 # SnakeGame
-SnakeGame with python
-# Credits
-##Music
+A basic SnakeGame with two versions, a basic named "normal" and a where walls will appear named "hard".
+# How to use it 
+Move ot the src folder and :
+```
+$ python main.py
+```
+## Musics 
 <a href="https://codyoquinn.com" title="sound credits">Sound created by CODY O'QUINN</a>
-##Icon
+## Icons 
 Arrow icon :
 <a href="https://www.flaticon.com/fr/icones-gratuites/fleche-courbe" title="flèche courbe icônes">Flèche courbe icons created by Creative Stall Premium - Flaticon</a>
 
