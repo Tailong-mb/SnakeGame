@@ -16,3 +16,5 @@ Mute icon :
 
 Sound icon :
 <a href="https://www.flaticon.com/free-icons/speaker" title="speaker icons">Speaker icons created by Aficons studio - Flaticon</a>
+## Preview
+<img src="image/snakeGame.gif" width="400" height="250">
